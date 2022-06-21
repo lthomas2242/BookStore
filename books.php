@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include("includes/header.php");
 ?>
   <main>
@@ -15,49 +14,41 @@
 
 <div id="content" >
     <div class="container" >
-<!--
-        <div class="col-md-12" >
+        <div class="col-md-12 books" >
+            <?php getBooks(); ?>
         </div>
--->
-<!--
-        <div class="col-md-3">
-        </div>
--->
-        <div class="col-md-12" >
-            <?php getProducts(); ?>
-        </div>
-        <center>
-            <ul class="pagination" >
-                
-            </ul>
-        </center>
     </div>
 </div>
 
 <?php
+    class Book
+    {
+        public $book_id;
+        public $quantity;
+    }
     include("includes/footer.php");
-   
-    function getProducts(){
+    
+    $book_array =[];
+    function addToCart($book_id){
+        //set session variable
+        $_SESSION["book_id"] = $book_id;
+        $_SESSION["quantity"] = 1;
+        header("Location: details.php");
+    }
+    function getBooks(){
          
-
-
         // Connect to the db.
         require('./mysqli_oop_connect.php'); 
         
         $get_books = "select * from books";
 
         $r =  $mysqli->query($get_books);
-        function addToCart(){
-           header("Location: cart.php");
-//           header("Location: cart.php?id='.$id.'");
-        }
+        
         if(array_key_exists('addToCart', $_POST)) {
-            addToCart();
-//            addToCart($mysqli->real_escape_string(trim($_POST['id'])));
+            addToCart($mysqli->real_escape_string(trim($_POST['book_id'])));
         }
 
         while($row_books = $r->fetch_object()){
-
             $id = $row_books->book_id;
             $title = $row_books->title;
             $description = $row_books->description;
@@ -71,7 +62,7 @@
             $format = $row_books->format;
             $rating = $row_books->rating;
 
-            echo "<form method='post'> <div class='col-md-4 col-sm-6 center-responsive' >";
+            echo "<form method='post' action=''> <div class='col-md-3 col-sm-6 center-responsive' >";
             if($rating !=null || $rating!=""){
                 echo "<a class='label sale' href='#' style='color:black;'>
                     <div class='thelabel'>$rating</div>
@@ -86,12 +77,12 @@
                         <div class='text' >
                             <h3><a href='pro_url' >$title</a></h3>
                             <p class='price' > $publisher </p>
-                            <p class='price' > $price </p>
+                            <p class='price' >$ $price </p>
                             <p class='buttons' >
-                                <a href='pro_url' class='btn btn-default' >View details</a>
-                                <button class='btn btn-danger' name='addToCart' value=$id>
-                                    <i class='fa fa-shopping-cart' data-price=$price></i> Add To Cart
-                                </button>
+                                
+                                <input type='hidden' name='book_id' value=".($id).">
+                                <input type='submit' class='btn btn-danger' name='addToCart' value='Details'/>
+                                    
                             </p>
                         </div>
                     </div>

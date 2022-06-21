@@ -1,51 +1,81 @@
 <?php
-    session_start();
     include("includes/header.php");
 ?>
 
 <main>
     <div class="hero">
-      <a href="shop.php" class="btn1">View all products</a>
+      
     </div>
     <div class="wrapper">
         <h1>Featured Collection</h1>
     </div>
-    <div id="content" class="container">
-
-
+    
+    <div id="content" >
+        <div class="container" >
+            <div class="view-more">
+                <?php
+                    if(isset($_SESSION['isLoggedIn'])){
+                      echo '<a href="books.php" class="btn btn-danger">View more</a>';
+                    }else{ 
+                      echo '<a href="login.php" class="btn btn-danger">View more</a>';
+                    }   
+                ?>
+            </div>
+            <div class="col-md-12 books" >
+                <?php getBooks(); ?>
+            </div>
+        </div>
     </div>
-    <footer class="page-footer">
-      <div class="footer-nav">
-        <div class="container clearfix">
-          <div class="footer-nav__col footer-nav__col--about">
-            <div class="footer-nav__heading">About us</div>
-            <p>We’re one of the fastest growing online bookshops and our mission is to provide you with an alternative haven to buy the books you love for the lowest prices. We offer over 10 million books and provide free delivery to over 100 countries.At E-BookStore you will find the Best Children's Books to read from our bookstore. We are proud to continue to offer you competitively low prices since our opening. E-BookStore’s journey started by selling educational books. We grew our business and expanded our range and have since grown into being a specialist in children’s book sets. We offer affordable and quality collection series.We are one of the biggest independent bookstores in the CANADA and provide services such as offering wholesale buying options to schools all over the world.</p>
-          </div>
-          <div class="footer-nav__col footer-nav__col--contacts">
-            <div class="footer-nav__heading">Contact details</div>
-            <address class="address">
-            Head Office: BookStore.<br>
-            180-182 Next Street, Canada.
-          </address>
-            <div class="phone">
-              Telephone:
-              <a class="phone__number" href="tel:0123456789">0123-456-789</a>
-            </div>
-            <div class="email">
-              Email:
-              <a href="mailto:support@yourwebsite.com" class="email__addr">support@ebookstore.com</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="page-footer__subline">
-        <div class="container clearfix">
 
-          <div class="copyright">
-            &copy; <?php echo date("Y");?> E-BookStore
-          </div>
-        </div>
-      </div>
-    </footer>
-</body>
-</html>
+    <?php
+        function getBooks(){
+
+            // Connect to the db.
+            require('./mysqli_oop_connect.php'); 
+
+            $get_books = "select * from books LIMIT 4";
+
+            $r =  $mysqli->query($get_books);
+
+            while($row_books = $r->fetch_object()){
+                $id = $row_books->book_id;
+                $title = $row_books->title;
+                $description = $row_books->description;
+                $language = $row_books->language;
+                $publication_date = $row_books->publication_date;
+                $publisher = $row_books->publisher;
+                $author = $row_books->author;
+                $isbn = $row_books->isbn;
+                $image_url = $row_books->image_url;
+                $price = $row_books->price;
+                $format = $row_books->format;
+                $rating = $row_books->rating;
+
+                echo "<form method='post' action=''> <div class='col-md-3 col-sm-6 center-responsive' >";
+                if($rating !=null || $rating!=""){
+                    echo "<a class='label sale' href='#' style='color:black;'>
+                        <div class='thelabel'>$rating</div>
+                        <div class='label-background'> </div>
+                    </a>";
+                }
+                    echo "
+                        <div class='product' >
+                            <a href='image_url' >
+                                <img src=$image_url class='img-responsive' >
+                            </a>
+                            <div class='text' >
+                                <h3><a href='pro_url' >$title</a></h3>
+                                <p class='price' > $publisher </p>
+                                <p class='price' >$ $price </p>
+                            </div>
+                        </div>
+                    </div></form>";
+                }
+            $r->free();
+            unset($r);
+        }
+?>
+</main>
+<?php
+    include("includes/footer.php");
+?>
