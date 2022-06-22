@@ -7,7 +7,7 @@
       
     </div>
     <div class="wrapper">
-        <h1>Featured Collection</h1>
+        <h1>Featured Collections</h1>
     </div>
     
     <div id="content" >

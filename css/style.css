@@ -1208,7 +1208,9 @@ img {
 }
 
 .page-header__bottomline {
-  background-color: #f8f8f8
+/*  background-color: #f8f8f8*/
+  background-color: #eb4848;
+  height: 100px;
 }
 
 .page-header__bottomline .logo {
@@ -1223,7 +1225,7 @@ img {
     text-decoration: none;
 }
 .page-header__bottomline .logo h1{
-    color: #d9534f;
+    color: #fff;
     font-weight: 700;
 }
 
@@ -1271,7 +1273,8 @@ img {
 }
 
 .page-header__bottomline .main-nav .categories__link:hover {
-  color: #ca3f3b
+/*  color: #ca3f3b*/
+    font-weight: 600;
 }
 
 .page-header__bottomline .main-nav .categories__link i {
@@ -1282,7 +1285,7 @@ img {
 }
 
 .page-header__bottomline .main-nav .categories__link--active {
-  color: #da1913
+  color: #fff;
 }
 
 .page-header .dropdown {
