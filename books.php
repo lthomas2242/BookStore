@@ -1,5 +1,8 @@
 <?php
     include("includes/header.php");
+    if(!isset($_SESSION['isLoggedIn'])){
+        header("Location: logout.php");
+    }
 ?>
   <main>
     <div class="nero">
@@ -21,26 +24,29 @@
 </div>
 
 <?php
-    class Book
-    {
-        public $book_id;
-        public $quantity;
-    }
+    
+
+    
     include("includes/footer.php");
     
-    $book_array =[];
     function addToCart($book_id){
+        if(!isset($_SESSION["book_array"])){
+            $book_array=array();
+            $book_array[$book_id] = 1;
+        }else{
+            $book_array=$_SESSION["book_array"];
+             $book_array[$book_id] += 1;
+        }
         //set session variable
-        $_SESSION["book_id"] = $book_id;
-        $_SESSION["quantity"] = 1;
-        header("Location: details.php");
+        $_SESSION["book_array"] = $book_array;
+        header("Location: cart.php");
     }
     function getBooks(){
          
         // Connect to the db.
         require('./mysqli_oop_connect.php'); 
         
-        $get_books = "select * from books";
+        $get_books = "select * from books left join inventory on books.book_id = inventory.book_id  where inventory.quantity>0  order by books.book_id desc";
 
         $r =  $mysqli->query($get_books);
         
@@ -65,24 +71,22 @@
             echo "<form method='post' action=''> <div class='col-md-3 col-sm-6 center-responsive' >";
             if($rating !=null || $rating!=""){
                 echo "<a class='label sale' href='#' style='color:black;'>
-                    <div class='thelabel'>$rating</div>
+                    <div class='thelabel'>$rating<i class='fa fa-star' aria-hidden='true'></i></div>
                     <div class='label-background'> </div>
                 </a>";
             }
                 echo "
-                    <div class='product' >
+                    <div class='product'>
                         <a href='image_url' >
                             <img src=$image_url class='img-responsive' >
                         </a>
                         <div class='text' >
-                            <h3><a href='pro_url' >$title</a></h3>
-                            <p class='price' > $publisher </p>
+                            <h4><a href='details.php?book_id=$id' >$title</a></h4>
+                            <p class='author'> $author </p>
                             <p class='price' >$ $price </p>
-                            <p class='buttons' >
-                                
+                            <p class='buttons'>
                                 <input type='hidden' name='book_id' value=".($id).">
-                                <input type='submit' class='btn btn-danger' name='addToCart' value='Details'/>
-                                    
+                                <input type='submit' class='btn btn-ebook' name='addToCart' value='Add To Cart'/>
                             </p>
                         </div>
                     </div>

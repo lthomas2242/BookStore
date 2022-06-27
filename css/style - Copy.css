@@ -251,14 +251,13 @@ margin:0 auto;
 }
 
 #content .product {
-    background:#fff;
-    border: solid 1px #e6e6e6;
-    box-sizing: border-box;
-    margin-bottom: 30px;
-    max-height: 610px;
-    min-height: 610px;
+background:#fff;
+border: solid 1px #e6e6e6;
+box-sizing: border-box;
+margin-bottom: 30px;
+    max-height: 614px;
+    min-height: 614px;
 }
-
 .view-more{
     text-align: right;
     margin-right: 30px;
@@ -266,18 +265,11 @@ margin:0 auto;
 .books{
     margin-top: 30px;
 }
-#content .product img{
-    min-height: 400px;
-}
-#content .product .text p.author{
-    text-align:center;
-    font-weight: bold;
-}
 #content .product .text p.price {
-    font-size:18px;
-    text-align:center;
-    font-weight:bold;
-    color: red;
+font-size:18px;
+text-align:center;
+font-weight:300;
+
 }
 #content .product .text p.publisher {
 font-size:18px;
@@ -292,25 +284,18 @@ text-align:center;
 }
 
 #content .product .text h3 {
-    text-align:center;
-    font-size:20px;
-}
-#content .product .text h4{
-    text-align:center;
-    font-weight: 600;
-    height: 35px;
+text-align:center;
+font-size:20px;
+
 }
 
+#content .product .text h3 a {
 
-#content .product .text h4 a {
-    color:#000;
+color:rgb(85, 85, 85);
 }
-#content .product .text h4 a:hover{
-    text-decoration: none;
-    color:#cf0909;
-}
+
 #content .product .text {
-padding:20px 10px 0px;
+padding:10px 10px 0px;
 }
 
 #content .product .text .buttons .btn {
@@ -429,7 +414,7 @@ width: 50px;
 }
 
 #content #cart .table tbody tr td input {
-width: 50px;
+width: 40px;
 text-align: right;
 
 }
@@ -660,8 +645,7 @@ margin: 40px 50px 10px -71px;
 color: #fff;
 font-size:18px;
 font-weight:bold;
-/*background-color: #337ab7;*/
-background-color: red;
+background-color: #337ab7;
 text-shadow: 0px 1px 2px #bbb ;
 
 }
@@ -778,7 +762,9 @@ width:90%;
 
 }
 
-
+.error{
+    color: #d9534f;
+}
 /*Backend*/
 html {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
@@ -1293,8 +1279,9 @@ img {
 
 .page-header__bottomline .main-nav .categories__link i {
   position: absolute;
-  padding-top: 3px;
-  padding-left: 10px;
+  top: 63px;
+  left: -5px;
+  line-height: normal
 }
 
 .page-header__bottomline .main-nav .categories__link--active {
@@ -1305,12 +1292,12 @@ img {
   position: absolute;
   display: none;
   left: 0;
-  width: 150px;
+  width: 467px;
   padding: 30px;
   padding-top: 10px;
   padding-left: 27px;
   background-color: #f8f8f8;
-  box-shadow: 0 17px 24px rgba(0, 0, 0, .5);
+  box-shadow: 0 17px 24px rgba(0, 0, 0, .2);
   z-index: 1
 }
 
@@ -1350,16 +1337,15 @@ img {
 .page-header .dropdown__link {
   display: inline-block;
   vertical-align: top;
-  font-size: 15px;
-  font-weight: bold;
-  color: #000;
+  font-size: 14px;
+  color: #727272;
   text-decoration: none;
   -webkit-transition: color .2s;
   transition: color .2s
 }
 
 .page-header .dropdown__link:hover {
-  color: red
+  color: #262626
 }
 
 .page-header .dropdown__banner {
@@ -1448,7 +1434,7 @@ img {
 
 .page-footer .footer-nav__heading {
   margin-bottom: 23px;
-  color: #cf0909;
+  color: #d9534f;
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase
@@ -1532,8 +1518,8 @@ img {
 .page-footer__subline {
   padding: 15px;
   font-size: 13px;
-  color: #fff;
-  background-color: #eb4848;
+  color: #777;
+  background-color: #333
 }
 
 .page-footer__subline .copyright {
@@ -1741,7 +1727,7 @@ img {
   margin: 2.5em auto;
   padding: 1em;
   border-radius: 8px;
-/*  border-top: 1px solid #eee;*/
+  border-top: 1px solid #eee;
 }
 
 .wrapper> :first-child {
@@ -1779,37 +1765,4 @@ img {
 
 .tac {
   text-align: center;
-}
-
-.btn-ebook{
-    background: #cd0101;
-    color: #fff;
-    margin: 5px!important;
-    font-weight: bold;
-    padding: 0 50px 0 50px;
-}
-
-.btn-ebook-small{
-    background: #cd0101;
-    color: #fff;
-    font-weight: bold;
-}
-
-.btn-ebook:hover{
-    color: #fff;
-}
-.btn-ebook-small:hover{
-    color: #fff;
-}
-.error{
-    color: #cf0909;
-}
-#delete {
-    padding-left: 20px;
-    background: none;
-    border: none;
-}
-#addBook i{
-    padding-top: 20px;
-    color: #cf0909;
 }

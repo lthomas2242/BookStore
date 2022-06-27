@@ -1,25 +1,36 @@
 <?php
     include("includes/header.php");
+    if(!isset($_SESSION['isLoggedIn'])){
+        header("Location: logout.php");
+    }
+    
     $book_id='';
     $total = 0;
     $count = 0;
     $num = 0;
+    $book_array = array();
     // If the id is set
-    if (isset($_SESSION['book_id']) && ($_SESSION['book_id'])) {
-        $book_id = $_SESSION['book_id'];
-         // Connect to the db.
-         require('./mysqli_oop_connect.php'); 
-         $select_book = "select * from books where book_id='$book_id'";
-         $run_book = $mysqli->query($select_book);
-         $count = $run_book->num_rows;
-         $num = $run_book->num_rows;
+    if (isset($_SESSION["book_array"])) {
+        $count = count($_SESSION["book_array"]);    
+        $book_array = $_SESSION["book_array"];
     }
+    
     function goToCheckout($amount){
         header("Location: checkout.php?amount=$amount");
     }
     if(array_key_exists('checkout', $_POST)) {
-        goToCheckout($mysqli->real_escape_string(trim($_POST['total'])));
+        goToCheckout(trim($_POST['total']));
     }
+
+    if(array_key_exists('delete', $_POST)) {
+        removeFromSession($_POST['removeid']);
+    }
+
+    function removeFromSession($id){
+        unset($_SESSION["book_array"][$id]); 
+        $count = count($_SESSION["book_array"]);  
+    }
+    
 ?>
 
 <main>
@@ -36,11 +47,11 @@
     <div class="container" >
         <div class="col-md-12" id="cart" >
             <div class="box" >
-                <form action="cart.php" method="post" enctype="multipart-form-data" >
+                <form action="" method="post">
                     <h1> Shopping Cart </h1>
-                    <p class="text-muted" > You currently have <?php echo $count; ?> item(s) in your cart. </p>
+                     <p class="text-muted" > You currently have <?php echo $count; ?> item(s) in your cart. </p>
                     <?php 
-                        if($num > 0) { ?>
+                        if($count > 0) { ?>
                             <div class="table-responsive" >
                                 <table class="table" >
                                     <thead>
@@ -48,39 +59,53 @@
                                             <th >Book</th>
                                             <th>Quantity</th>
                                             <th>Price</th>
-                                            <th colspan="1">Delete</th>
-                                            <th colspan="2"> Sub Total </th>
+                                            <th> Sub Total </th>
+                                            <th>Delete</th>
+                                            <th colspan="3"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php 
-                                            while($row_books = $run_book->fetch_object()){
-                                                    $id = $row_books->book_id;
-                                                    $price = $row_books->price;
-                                                    $title = $row_books->title;
-                                                    $quantity = 1;
-                                                    $sub_total = $price*$quantity;
-                                                    $total += $sub_total;
+                                            // Connect to the db.
+                                            require('./mysqli_oop_connect.php'); 
+                                            if(isset($_SESSION["book_array"]) && count($_SESSION["book_array"]) >0){
+                                                foreach($_SESSION["book_array"] as $book_id => $quantity) {
+//                                                    $count += 1;
+                                                    $select_book = "select * from books where book_id='$book_id'";
+                                                    $run_book = $mysqli->query($select_book);
+                                                    $count = $run_book->num_rows;
+                                                    $num = $run_book->num_rows;
+                                                    while($row_books = $run_book->fetch_object()){
+                                                            $id = $row_books->book_id;
+                                                            $price = $row_books->price;
+                                                            $title = $row_books->title;
+                                                            $sub_total = $price*$quantity;
+                                                            $total += $sub_total;
 
                                         ?>
                                         <tr>
                                             <td>
                                                 <label> <?php echo $title; ?> </label>
                                             </td>
-                                            <td>
-                                                <input type="text" name="quantity" value="<?php echo $quantity; ?>" data-product_id="<?php echo $id; ?>" class="quantity form-control">
+                                            <td >
+                                                <label> <?php echo $quantity; ?> </label>
+<!--                                                <input type="text" name="quantity" value="<?php echo $quantity; ?>" data-product_id="<?php echo $id; ?>" class="quantity form-control">-->
                                             </td>
                                             <td>
                                                 $<?php echo $price; ?>.00
                                             </td>
-                                            <td>
-                                                <input type="checkbox" name="remove[]" value="<?php echo $id; ?>">
-                                            </td>
+                                            
                                             <td>
                                                 $<?php echo $sub_total; ?>.00
                                             </td>
+                                            <td id="delete">
+                                                <button name="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                
+                                                <input  type='hidden' name="removeid" value="<?php echo $book_id; ?>">
+                                            </td>
+                                            <td colspan="3"></td>
                                         </tr>
-                                        <?php } ?>
+                                        <?php } } }?>
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -100,7 +125,7 @@
                         </div>
                         <input type='hidden' name='total' value="<?php echo $total; ?>">
                         <?php
-                        if($num > 0){?>
+                        if( $count > 0){?>
                             <div class="pull-right">
                                 <button type="submit"  name='checkout' class="btn btn-danger">
                                     Proceed to Checkout
@@ -116,5 +141,3 @@
 <?php
     include("includes/footer.php");
 ?>
-</body>
-</html>

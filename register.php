@@ -30,7 +30,7 @@
         if (empty($_POST['phone_number'])) {
             $phone_err = "Please enter phone number.";
         }else if(!preg_match("/^[0-9]{3}(-| )[0-9]{3}(-| )[0-9]{4}$/", $_POST['phone_number'])) {
-            $phone_err = "In valid phone_number. Enter in format 000-0000-0000 or 000 000 0000";
+            $phone_err = "In valid phone number. Enter in format 000-0000-0000 or 000 000 0000";
         } 
         else {
             $phone_number = $mysqli->real_escape_string(trim($_POST['phone_number']));
@@ -85,8 +85,6 @@
 
                 // Print a message based upon the result:
                 if ($stmt->affected_rows == 1) {
-                    $message = "Registered successfully";
-                    echo "<script type='text/javascript'>alert('$message');</script>";
                     header("Location: login.php");
                 } else {
                     $message = "Some error occured, please try again";
@@ -112,7 +110,7 @@
                 <div class="box" >
                     <div class="box-header" >
                         <center>
-                            <h1 style="color:#d9534f">Register</h1>
+                            <h1 style="color:#cf0909">Register</h1>
                         </center>
                     </div>
                     <form action="" method="POST" >
@@ -142,7 +140,7 @@
                             <span class="error"><?php if (isset($password_err)) echo $password_err ?></span>
                         </div>
                         <div class="text-center" >
-                            <button type="submit" name="register" value="Register" class="btn btn-danger" >
+                            <button type="submit" name="register" value="Register" class="btn btn-ebook" >
                                 Register
                             </button>
                         </div>

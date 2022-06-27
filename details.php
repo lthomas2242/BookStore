@@ -4,9 +4,9 @@
     $total = 0;
     $count = 0;
     $num = 0;
-    // If the id is set
-    if (isset($_SESSION['book_id']) && ($_SESSION['book_id'])) {
-        $book_id = $_SESSION['book_id'];
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        $book_id = $_GET['book_id'];
          // Connect to the db.
          require('./mysqli_oop_connect.php'); 
          $select_book = "select * from books where book_id='$book_id'";
@@ -14,11 +14,22 @@
          $count = $run_book->num_rows;
          $num = $run_book->num_rows;
     }
-    function goToCheckout($amount){
-        header("Location: checkout.php?amount=$amount");
+//    // If the id is set
+//    if (isset($_SESSION['book_id']) && ($_SESSION['book_id'])) {
+//        
+//    }
+//    function goToCheckout($amount){
+//        header("Location: checkout.php?amount=$amount");
+//    }
+    function back(){
+        if(isset($_SESSION['isLoggedIn'])){
+            header("Location:books.php");
+        }else{
+            header("Location:index.php");
+        }
     }
-    if(array_key_exists('checkout', $_POST)) {
-        goToCheckout($mysqli->real_escape_string(trim($_POST['total'])));
+    if(array_key_exists('back', $_POST)) {
+        back();
     }
 ?>
 
@@ -52,8 +63,8 @@
                                     $author = $row_books->author;
                                     $language = $row_books->language;
                                     $publication_date = $row_books->publication_date;
-                                     $isbn = $row_books->isbn;
-                                     $format = $row_books->format;
+                                    $isbn = $row_books->isbn;
+                                    $format = $row_books->format;
                                     $rating = $row_books->rating;
 
                         ?>
@@ -89,19 +100,21 @@
 
                     <div class="box-footer">
                         <div class="pull-left">
-                            <a href="books.php" class="btn btn-default">
+                            <button type="submit" class="btn btn-default" name='back' >
                                 <i class="fa fa-chevron-left"></i> Back
-                            </a>
+                            </button>
                         </div>
+<!--
                         <input type='hidden' name='total' value="<?php echo $total; ?>">
                         <?php
-                        if($num > 0){?>
-                            <div class="pull-right">
-                                <button type="submit"  name='checkout' class="btn btn-danger">
-                                    Proceed to Checkout
-                                </button>
-                            </div>
-                            <?php }  ?>
+                            if($num > 0){?>
+                                <div class="pull-right">
+                                    <button type="submit"  name='checkout' class="btn btn-danger">
+                                        Proceed to Checkout
+                                    </button>
+                                </div>
+                        <?php }  ?>
+-->
                     </div>
                 </form>
             </div>

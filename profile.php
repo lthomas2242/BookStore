@@ -34,8 +34,8 @@
                 while ($row = $r->fetch_object()) {
                     $_SESSION["user_id"] = $row->user_id;
                     $_SESSION["first_name"] = strtoupper($row->first_name);
-                    $_SESSION["profile_type"] = $row->profile_type;
                 }
+
                 // Redirect the user:
                 header("Location: index.php");
 
@@ -51,8 +51,7 @@
                 <div class="box" >
                     <div class="box-header" >
                         <center>
-                            <h1 style="color:#cf0909">Login</h1>
-                            <p class="lead" style="color:#cf0909">Already our Customer?</p>
+                            <h1 style="color:#cf0909">Profile</h1>
                         </center>
                     </div>
                     <form action="" method="POST" >
